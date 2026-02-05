@@ -1,27 +1,45 @@
-from file_handler import FileHandler
-from text_processor import TextProcessor
+from .file_handler import FileHandler
+from .text_processor import TextProcessor
 
 
 
-class Inverted_index:
+class InvertedIndex:
     def __init__(self):
         self.file_handler = FileHandler()
         self.text_processor = TextProcessor()
     
     def clean_text(self, path_):
+
+        ''' 
+        Limpa os conteúdos textos e os coloca em um dicionário
+
+        Args:
+            caminho_arquivo (str): caminho absoluto dos arquivos
+
+        Returns:
+            dict: arquivos e seus respectivos conteúdos
+        '''
+
         text_dict = self.file_handler.ler_todos_arquivos(path_)
         index = {}
         for nome, texto_completo in text_dict.items():
-            texto = self.text_processor.remove_ponctuations(texto_completo)
-            texto = self.text_processor.lowercase(texto)
-            texto = self.text_processor.remove_spaces(texto)
-            tokens = self.text_processor.remove_stopwords(texto)
-
+            tokens = self.text_processor.preprocess(texto_completo)
             index[nome] = tokens 
 
         return index
 
     def iv_index(self, dict_):
+        ''' 
+        Inverte os índices do dicionário
+
+        Args:
+            dict_ (dict): dicionário "limpo" dos textos e seus conteúdos
+
+        Returns:
+            dict: índices invertidos
+        '''
+
+
         inverted_index = {}
         for documento, palavras in dict_.items():
             lista_palavras = palavras
@@ -32,30 +50,4 @@ class Inverted_index:
                 if documento not in inverted_index[palavra]:
                     inverted_index[palavra].append(documento)
         return inverted_index
-
-#================= teste =====================================
-
-if __name__ == "__main__":
-    path = "../data"
-
-    indexer = Inverted_index()
-
-    # 1. Limpa os textos
-    clean_docs = indexer.clean_text(path)
-
-    print("\n=== TEXTOS PROCESSADOS ===")
-    for doc, tokens in clean_docs.items():
-        print(doc, "->", tokens)
-
-    # 2. Cria o índice invertido
-    inverted = indexer.iv_index(clean_docs)
-
-    print("\n=== ÍNDICE INVERTIDO ===")
-    for palavra, docs in inverted.items():
-        print(palavra, "->", docs)
-
-
-
-        
-        
 

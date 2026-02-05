@@ -5,6 +5,17 @@ class FileHandler:
         pass
 
     def listar_arquivos(self, path_):
+        '''
+        Lista apenas aqrquivos .txt de uma pasta
+
+        Args:
+            path_ (str): Caminho absoluto da pasta
+
+        Returns:
+            list: lista com nomes dos arquivos .txt
+
+        Complexidade: O(n)
+        '''
         texts = []
         for arquivo in os.listdir(path_):
             file_path = os.path.join(path_, arquivo)
@@ -13,10 +24,35 @@ class FileHandler:
         return texts
         
     def ler_arquivo(self, caminho_arquivo):
+
+        ''' 
+        Lê conteúdo do arquivo .txt
+
+        Args:
+            caminho_arquivo (str): caminho absoluto do arquivo .txt
+
+        Returns:
+            string: Conteúdo completo do arquivo
+        '''
+
+        if not os.path.exists(caminho_arquivo):
+            raise ValueError(f"Pasta não encontrada: {caminho_arquivo}") 
+        
         with open(caminho_arquivo, "r", encoding = 'utf-8') as f:
             return f.read()
 
     def ler_todos_arquivos(self, path_):
+        ''' 
+        Lê conteúdo de todos arquivos .txt 
+
+        Args:
+            path_ (str): caminho absoluto da pasta
+
+        Returns:
+            dict: cada nome do arquivo ligado ao seu respectivo conteúdo 
+        '''
+
+
         dict_txt = {}
         textos = self.listar_arquivos(path_)
         
@@ -25,12 +61,3 @@ class FileHandler:
             dict_txt[texto] = self.ler_arquivo(caminho_completo)
         return dict_txt
 
-
-
-
-# p1 = FileHandler()
-# print(p1.ler_todos_arquivos("/home/breno/search-engine/data"))
-
-# print(p1.ler_arquivo("/home/breno/search-engine/data/notas_python.txt"))
-
-# print(p1.ler_todos_arquivos())
