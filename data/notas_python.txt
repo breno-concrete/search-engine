@@ -1,1 +1,3 @@
-oi meu nome é breno
+Python é uma linguagem simples e poderosa.
+Python é muito usada para scripts e automação.
+É comum usar Python para processamento de texto.

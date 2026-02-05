@@ -1,0 +1,3 @@
+Banco de dados armazena informações de forma estruturada.
+SQL é usado para consultar banco de dados.
+Índices ajudam a melhorar a busca em dados.
