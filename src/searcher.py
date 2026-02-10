@@ -70,22 +70,32 @@ class Searcher:
 
         Args:
             dict_ (dict): dicionário com índice invertido dos textos e seus conteúdos
-            word (string): palavra(s) a ser buscada
+            word (string): palavra(s) a ser buscada (com " or " ou espaço como separador)
 
         Returns:
             list : lista de documentos onde aparece a(s) palavra(s)
         '''
-        palavras = self.text_processor.preprocess(word)
+        # Aceitar tanto " or " com espaços quanto sem
+        if ' or ' in word:
+            palavras_brutas = word.split(' or ')
+        else:
+            palavras_brutas = word.split()
+        
+        palavras = []
+        for p in palavras_brutas:
+            processado = self.text_processor.preprocess(p)
+            if processado:
+                palavras.append(processado[0])
+        
         resultado = []
-        if palavras == None:
+        if not palavras:
             return []
       
-        else:
-            for palavra in palavras:
-                docs = self.search(dict_, palavra)
-                for doc in docs:
-                    if not doc in resultado:
-                        resultado.append(doc)
+        for palavra in palavras:
+            docs = self.search(dict_, palavra)
+            for doc in docs:
+                if not doc in resultado:
+                    resultado.append(doc)
 
         return resultado
     
@@ -95,13 +105,23 @@ class Searcher:
 
         Args:
             dict_ (dict): dicionário com índice invertido dos textos e seus conteúdos
-            word (string): palavra(s) a ser buscada
+            word (string): palavra(s) a ser buscada (com " and " ou espaço como separador)
 
         Returns:
             list : lista de documentos onde aparece a(s) palavra(s)
         '''
 
-        palavras = self.text_processor.preprocess(word)
+        # Aceitar tanto " and " com espaços quanto sem
+        if ' and ' in word:
+            palavras_brutas = word.split(' and ')
+        else:
+            palavras_brutas = word.split()
+        
+        palavras = []
+        for p in palavras_brutas:
+            processado = self.text_processor.preprocess(p)
+            if processado:
+                palavras.append(processado[0])
 
         if not palavras:
             return []
@@ -110,7 +130,6 @@ class Searcher:
         
         for palavra in palavras[1:]:
             docs = self.search(dict_, palavra)
-
             resultado = [doc for doc in resultado if doc in docs]
         
         return resultado
