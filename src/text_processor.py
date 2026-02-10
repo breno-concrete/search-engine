@@ -97,11 +97,3 @@ class TextProcessor:
         texto = self.remove_spaces(texto)
         tokens = self.remove_stopwords(texto)
         return tokens
-
-
-
-# p1 = text_processor("Meu nome,        (oi) é um breno!!!")
-
-# # print(p1.remove_ponctuations())
-# # print(p1.lowercase())
-# print(p1.remove_stopwords())

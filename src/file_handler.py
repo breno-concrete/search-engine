@@ -6,7 +6,7 @@ class FileHandler:
 
     def listar_arquivos(self, path_):
         '''
-        Lista apenas aqrquivos .txt de uma pasta
+        Lista apenas arquivos .txt de uma pasta
 
         Args:
             path_ (str): Caminho absoluto da pasta
